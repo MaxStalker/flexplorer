@@ -1,5 +1,7 @@
+import * as fcl from "@onflow/fcl";
 import { types, flow } from "mobx-state-tree";
 import { query } from "flow-cadut";
+import { findAddress } from "flow-cadut/plugins/FIND";
 import { Key } from "./key";
 
 export const Account = types
@@ -13,6 +15,14 @@ export const Account = types
       self.address = address;
     },
     fetchAccount: flow(function* fetchAccount() {
+      let foundAddress = yield findAddress(self.address);
+      let address = foundAddress || self.address;
+      const account = yield fcl
+        .send([fcl.getAccount(address)])
+        .then(fcl.decode);
+      console.log({ account });
+    }),
+    fetchAccountComplex: flow(function* fetchAccountComplex() {
       const [account, err] = yield query({
         args: [self.address],
         code: `
@@ -45,8 +55,7 @@ export const Account = types
         console.error(err);
       } else {
         console.log({ account });
-        console.log({keys: account.fullAccount.keys})
-
+        console.log({ keys: account.fullAccount.keys });
       }
     }),
   }))
