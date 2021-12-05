@@ -11,7 +11,7 @@ const Home = () => {
       }>Redirect</button>
       <ul>
         <li>
-          <a href={"/account/0x56f61fc020ed9afb"}>Bjarte FLow Format</a>
+          <a href={"/account/0x56f61fc020ed9afb"}>Bjarte Flow Format</a>
         </li>
         <li>
           <a href={"/account/find:bjarte"}>Bjarte Find Prefix</a>
