@@ -1,14 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { setEnvironment, registerPlugin } from "flow-cadut";
+import { FIND } from "flow-cadut/plugins/FIND";
+import { Provider, store } from "./state/root";
+import { startRouter, StateRouter } from "mobx-state-tree-router";
+import { router } from "./Views";
+
+setEnvironment("testnet");
+registerPlugin(FIND);
+startRouter(router);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider value={store}>
+      <StateRouter router={router} />
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
